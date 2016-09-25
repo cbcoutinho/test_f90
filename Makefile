@@ -25,5 +25,5 @@ $(OBJ)/types.o: $(SRC)/types.f90
 	$(FF) $(FFlags) -J$(OBJ) -c -o $@ $<
 clean:
 	rm -f $(OBJ)/*.o $(OBJ)/*.mod $(BIN)/main
-run:
+run: $(BIN)/main
 	mpiexec $(BIN)/main

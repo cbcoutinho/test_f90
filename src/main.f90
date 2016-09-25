@@ -7,7 +7,7 @@ program sample
 
   ! Integration-related initializations
   integer, parameter :: num_sections = 3
-  real(dp) :: dx, x
+  real(dp) :: dx, x, mysum
   real(dp), parameter :: a = 0.0_dp, b = 1.0_dp
   real(dp) :: local_a, local_b
 
@@ -16,18 +16,24 @@ program sample
   call mpi_comm_size(mpi_comm_world, size, ierr)
   call mpi_get_processor_name(hostname, host_len, ierr)
 
-!  call declare_all()
+  ! call declare_all()
 
-  call mpi_barrier(mpi_comm_world, ierr)
+  ! call mpi_barrier(mpi_comm_world, ierr)
 
-
+!  if ( rank.eq.0 ) then
+!  end if
   dx = (b - a) / (real(size, dp) * real(num_sections, dp))
   local_a = a + real(rank, dp)/real(size, dp) * (b-a)
-  local_b = real(rank+1, dp)/real(size, dp) * (b-a)
+  local_b = a + real(rank+1, dp)/real(size, dp) * (b-a)
 
   write(6, *) dx, rank, local_a, local_b
 
+  call mpi_reduce(local_b - local_a, mysum, 1, mpi_double, mpi_sum, 0, mpi_comm_world, ierr)
 
+  call mpi_barrier(mpi_comm_world, ierr)
+  if ( rank.eq.0 ) then
+    write(6, *) b-a, mysum
+  end if
 
 
 
