@@ -1,5 +1,4 @@
 module types
-!  integer, parameter:: dp=kind(0.d0)
   integer, parameter :: sp = selected_real_kind(6)
   integer, parameter :: dp = selected_real_kind(15)
   integer, parameter :: qp = selected_real_kind(33)

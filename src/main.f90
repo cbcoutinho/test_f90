@@ -2,6 +2,8 @@
 program sample
   use mpi
   use types, only: dp, pi_sp, pi_dp, pi_qp
+  use misc, only: myfun
+
   integer :: rank, ierr, size, host_len, partner
   integer :: status(mpi_status_size)
   character(len=100) :: greeting
@@ -18,7 +20,7 @@ program sample
 !  stop
 
   if ( rank.eq.0 ) then
-    write(*, *) dp, pi_sp, pi_dp, pi_qp
+    write(*, *) myfun(0.0_dp), myfun(0.5_dp), myfun(1.0_dp)
   end if
 
   write(greeting, 100) rank, size, trim(hostname)
