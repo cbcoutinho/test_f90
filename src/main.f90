@@ -3,11 +3,10 @@ program sample
   use mpi
   use mpi_declarations
   use types, only: dp, pi_sp, pi_dp, pi_qp
-  use misc, only: myfun
+  use misc, only: myfun, integrate_myfun
 
   ! Integration-related initializations
-  integer, parameter :: num_sections = 3
-  real(dp) :: dx, x, mysum
+  real(dp) :: local_sum, mysum
   real(dp), parameter :: a = 0.0_dp, b = 1.0_dp
   real(dp) :: local_a, local_b
 
@@ -20,23 +19,18 @@ program sample
 
   ! call mpi_barrier(mpi_comm_world, ierr)
 
-!  if ( rank.eq.0 ) then
-!  end if
-  dx = (b - a) / (real(size, dp) * real(num_sections, dp))
   local_a = a + real(rank, dp)/real(size, dp) * (b-a)
   local_b = a + real(rank+1, dp)/real(size, dp) * (b-a)
 
-  write(6, *) dx, rank, local_a, local_b
+  call integrate_myfun(local_a, local_b, local_sum, n)
+  write(6, *) rank, local_a, local_b, local_sum, n
 
-  call mpi_reduce(local_b - local_a, mysum, 1, mpi_double, mpi_sum, 0, mpi_comm_world, ierr)
+  call mpi_reduce(local_sum, mysum, 1, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
 
-  call mpi_barrier(mpi_comm_world, ierr)
+  ! call mpi_barrier(mpi_comm_world, ierr)
   if ( rank.eq.0 ) then
-    write(6, *) b-a, mysum
+    write(6, *) pi_dp, mysum
   end if
-
-
-
 
   call mpi_finalize(ierr)
 
