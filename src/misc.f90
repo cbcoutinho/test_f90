@@ -2,8 +2,8 @@ module misc
   use types, only: dp
 
 contains
-  subroutine integrate_myfun(a, b, mysum, n)
-    integer :: ii
+  subroutine integrate_myfun(a, b, mysum, n, rank)
+    integer :: ii, rank
     integer, intent(out) :: n
     real(dp) :: x, mysum_old, err
     real(dp), parameter :: eps = 1d-10
@@ -17,15 +17,16 @@ contains
       mysum = 0.0_dp
       x = a
       dx = (b-a) / real(n, dp)
+
       do ii = 1, n
-
-        mysum = mysum + myfun(x)*dx
+        mysum = mysum + myfun(x+dx) + myfun(x)
         x = x + dx
-
       end do
+
+      mysum = (dx/2.0_dp)*mysum
       err = abs(mysum - mysum_old)
       mysum_old = mysum
-      n = n + 1
+      n = n * 2 
     end do
 
   end subroutine integrate_myfun

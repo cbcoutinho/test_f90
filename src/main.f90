@@ -16,18 +16,16 @@ program sample
   call mpi_get_processor_name(hostname, host_len, ierr)
 
   ! call declare_all()
-
   ! call mpi_barrier(mpi_comm_world, ierr)
 
   local_a = a + real(rank, dp)/real(size, dp) * (b-a)
   local_b = a + real(rank+1, dp)/real(size, dp) * (b-a)
 
-  call integrate_myfun(local_a, local_b, local_sum, n)
+  call integrate_myfun(local_a, local_b, local_sum, n, rank)
   write(6, *) rank, local_a, local_b, local_sum, n
 
   call mpi_reduce(local_sum, mysum, 1, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
 
-  ! call mpi_barrier(mpi_comm_world, ierr)
   if ( rank.eq.0 ) then
     write(6, *) pi_dp, mysum
   end if
