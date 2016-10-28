@@ -15,7 +15,8 @@ contains
     if(rank.eq.0) then
       write(6, *) trim(greeting)
       do partner=1, size-1
-        call mpi_recv(greeting, 100, mpi_character, mpi_any_source, 1, mpi_comm_world, status, ierr)
+        ! call mpi_recv(greeting, 100, mpi_character, mpi_any_source, 1, mpi_comm_world, status, ierr)
+        call mpi_recv(greeting, 100, mpi_character, partner, 1, mpi_comm_world, status, ierr)
         write(6, *) trim(greeting)
       end do
     else

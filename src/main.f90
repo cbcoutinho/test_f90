@@ -15,8 +15,8 @@ program sample
   call mpi_comm_size(mpi_comm_world, size, ierr)
   call mpi_get_processor_name(hostname, host_len, ierr)
 
-  ! call declare_all()
-  ! call mpi_barrier(mpi_comm_world, ierr)
+  call declare_all()
+  call mpi_barrier(mpi_comm_world, ierr)
 
   local_a = a + real(rank, dp)/real(size, dp) * (b-a)
   local_b = a + real(rank+1, dp)/real(size, dp) * (b-a)

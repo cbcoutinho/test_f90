@@ -26,4 +26,4 @@ $(OBJ)/types.o: $(SRC)/types.f90
 clean:
 	rm -f $(OBJ)/*.o $(OBJ)/*.mod $(BIN)/main
 run: $(BIN)/main
-	mpiexec $(BIN)/main
+	mpiexec -np 4 $(BIN)/main
