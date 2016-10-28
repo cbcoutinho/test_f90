@@ -2,7 +2,7 @@
 program sample
   use mpi
   use mpi_declarations
-  use types, only: dp, pi_sp, pi_dp, pi_qp
+  use types, only: dp
   use misc, only: myfun, integrate_myfun
 
   ! Integration-related initializations

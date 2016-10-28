@@ -7,7 +7,8 @@ BIN=$(current_dir)/bin
 
 # Compiler
 FF = mpifort
-#FFlags = -Wall -fbounds-check
+FFlags = -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g -fcheck=all -fbacktrace
+# FFlags = -Wall -Wextra -Wimplicit-interface -fPIC -Werror -fmax-errors=1 -O3 -march=native -ffast-math -funroll-loops
 #FLIBS = -lblas -llapack
 
 # Extra object files required by main program
