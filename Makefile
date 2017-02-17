@@ -1,9 +1,8 @@
 # makefile: makes the adFE2D program
 
-current_dir = $(shell pwd)
-SRC=$(current_dir)/src
-OBJ=$(current_dir)/obj
-BIN=$(current_dir)/bin
+SRC=./src
+OBJ=./obj
+BIN=./bin
 
 # Compiler
 FF = mpifort
@@ -24,6 +23,7 @@ $(OBJ)/mpi_declarations.o: $(SRC)/mpi_declarations.f90
 	$(FF) $(FFlags) -J$(OBJ) -c -o $@ $<
 $(OBJ)/types.o: $(SRC)/types.f90
 	$(FF) $(FFlags) -J$(OBJ) -c -o $@ $<
+
 clean:
 	rm -f $(OBJ)/*.o $(OBJ)/*.mod $(BIN)/main
 run: $(BIN)/main
